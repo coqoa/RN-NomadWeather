@@ -1,5 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Dimensions } from 'react-native';
+
+// const {width:SCREEN_W} = Dimensions.get("window");
+const SCREEN = Dimensions.get("window");
 
 export default function App() {
   return (
@@ -7,12 +10,28 @@ export default function App() {
       <View style={styles.city}>
         <Text style={styles.cityName}>Seoul</Text>
       </View>
-      <View style={styles.weather}>
+      <ScrollView showsHorizontalScrollIndicator="false" pagingEnabled horizontal contentContainerStyle={styles.weather}>
         <View style={styles.day}>
           <Text style={styles.temp}>27</Text>
           <Text style={styles.desciption}>Sunny</Text>
         </View>
-      </View>
+        <View style={styles.day}>
+          <Text style={styles.temp}>27</Text>
+          <Text style={styles.desciption}>Sunny</Text>
+        </View>
+        <View style={styles.day}>
+          <Text style={styles.temp}>27</Text>
+          <Text style={styles.desciption}>Sunny</Text>
+        </View>
+        <View style={styles.day}>
+          <Text style={styles.temp}>27</Text>
+          <Text style={styles.desciption}>Sunny</Text>
+        </View>
+        <View style={styles.day}>
+          <Text style={styles.temp}>27</Text>
+          <Text style={styles.desciption}>Sunny</Text>
+        </View>
+      </ScrollView>
     </View>
 
   );
@@ -21,11 +40,11 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "salmon"
+    backgroundColor: "tomato"
   },
   city:{
     flex: 1,
-    backgroundColor: "tomato",
+    // backgroundColor: "salmon",
     justifyContent: "center",
     alignItems:"center",
   },
@@ -35,12 +54,10 @@ const styles = StyleSheet.create({
     fontWeight: "500"
   },
   weather:{
-    flex: 3,
   },
   day:{
-    flex: 1,
+    width: SCREEN.width,
     alignItems:"center",
-    // backgroundColor: "teal",
   },
   temp:{
     marginTop: 50,
