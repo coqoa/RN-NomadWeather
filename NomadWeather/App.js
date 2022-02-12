@@ -6,6 +6,17 @@ import * as Location from 'expo-location';
 // const {width:SCREEN_W} = Dimensions.get("window");
 const SCREEN = Dimensions.get("window");
 const API_KEY = "d095054ee945d45256e3eeb87ab9625f";
+import { Fontisto } from '@expo/vector-icons';
+
+const icons = {
+  "Clouds": "cloudy",
+  "Clear": "day-sunny",
+  "Atmosphere": "cloudy-gusts",
+  "Snow": "snow",
+  "Rain": "rains",
+  "Drizzle": "rain",
+  "Thunderstorm": "lightning",
+}
 
 export default function App() {
   const [city, setCity] = useState("Loading..")
@@ -23,6 +34,8 @@ export default function App() {
       {useGoogleMaps:false}
     )
     setCity(location[0].city)
+
+    //날씨관련
     const response = await(fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=alerts&appid=${API_KEY}&units=metric`));
     const json = await response.json()
     setDays(json.daily)
@@ -30,6 +43,9 @@ export default function App() {
   useEffect(()=> {
     getWeather();
   }, [])
+
+
+  // ---------------------------------return-------------------------------------
 
   return (
     <View style={styles.container}>
@@ -44,7 +60,12 @@ export default function App() {
         ) : (
           days.map((day, index)=><View key={index} style={styles.day}>
             <Text style={styles.tinyText}>{new Date(day.dt * 1000).toString().substring(0, 10)}</Text>
-            <Text style={styles.temp}>{parseFloat(day.temp.day).toFixed(1)}</Text>
+
+            <View style = {{flexDirection:"row", alignItems:"center",width:"100%",  justifyContent:"space-between"}}>
+              <Text style={styles.temp}>{parseFloat(day.temp.day).toFixed(1)}</Text>
+              <Fontisto name={icons[day.weather[0].main]} size={70} color="white" />
+            </View>
+
             <Text style={styles.desciption}>{day.weather[0].main}</Text>
           </View>)
           
@@ -55,10 +76,11 @@ export default function App() {
   );
 }
 
+// ------------------------------StyleSheet----------------------------------
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "tomato"
+    backgroundColor: "lightskyblue"
   },
   city:{
     flex: 1,
@@ -67,7 +89,8 @@ const styles = StyleSheet.create({
     alignItems:"center",
   },
   cityName:{
-    color:"black",
+    marginTop: 50,
+    color:"white",
     fontSize:50,
     fontWeight: "500"
   },
@@ -75,17 +98,25 @@ const styles = StyleSheet.create({
   },
   day:{
     width: SCREEN.width,
-    alignItems:"center",
+    alignItems:"flex-start",
+    paddingHorizontal: 20,
   },
   temp:{
-    marginTop: 50,
-    fontSize: 130,
+    color:"white",
+    // marginTop: 50,
+    // marginBottom: 50,
+    fontSize: 100,
+    fontWeight:"500",
   },
   desciption:{
-    marginTop: 20,
-    fontSize: 40,
+    color:"white",
+    fontSize: 25,
+    fontWeight:"500",
   },
   tinyText:{
-    fontSize: 20,
+    marginTop: 100,
+    color:"white",
+    fontSize: 25,
+    fontWeight:"500",
   },
 });
